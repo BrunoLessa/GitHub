@@ -1,0 +1,195 @@
+﻿<!-- Referência da Classe de Modelo -->
+@model Projeto.Site.Models.LivroModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TCERJ - App de Teste - Livraria</title>
+    <link href="~/Content/ItensSite/EstilosDoSite.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>    
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/ItensSite/accounting.js"></script>
+    <script src="~/Scripts/ItensSite/moment.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/ItensSite/JsCabec.js"></script>
+</head>
+<body>
+    <div class="loading">
+        <img src="~/Stuffs/loading-gif-transparent-10.gif" />
+    </div>
+    <div class="container">
+        <h3>Lista de livros </h3>
+        <hr />
+        <div id="Mensagem">
+            @ViewBag.Mensagem
+        </div>
+        <!-- Definicao da tela de Cadastro -->
+        <div id="Botoes">
+            <!-- Botão para acionar modal -->
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#TelaCadastro">
+                Cadastrar
+            </button>
+        </div>
+        <!-- Modal Cadastro -->
+        <div class="modal fade" id="TelaCadastro" tabindex="-1" role="dialog" aria-labelledby="TituloJanela" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="TituloJanela">Tela de cadastro</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("CadastrarLivro", "Livro", FormMethod.Post, new { @id = "FormCadastro", @class = "needs-validation", @enctype = "multipart/form-data" }))
+                        {
+                            <!-- Exibir todas as mensagens de erro de validação -->                            
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Titulo, new { @class = "col-sm-2 col-form-label"})
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Titulo, new { @class = "form-control", @PlaceHolder = "Titulo:" })
+                                </div>                                
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l =>l.Autor, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Autor, new { @class = "form-control", @PlaceHolder = "Autor:" })
+                                </div>                                    
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Isbn, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Isbn, new { @class = "form-control", @PlaceHolder = "Isbn:" })
+                                </div>                                                                
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Preco, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Preco, new { @class = "form-control", @type = "number", @lang = "en-150" ,@min = "0.00", @step = "0.01", @PlaceHolder = "Preço:" })
+                                </div>                                    
+                            </div>
+                            
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.DtPublicacao, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.DtPublicacao, new { @class = "form-control", @type = "Date", @PlaceHolder = "Data puvlicação" })
+                                </div>    
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="ArqImg" name="ArqImg"
+                                                   aria-describedby="inputGroupFileAddon01" accept="image/x-png,image/gif,image/jpeg">
+                                        <label class="custom-file-label" for="inputGroupFile01">Pesquisar arquivo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <input type="submit" value="Salvar registro" class="btn btn-primary" />
+                            </div>
+                         }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Cadastro Fim -->
+        <!-- Modal Editar -->
+        <div class="modal fade" id="TelaEdicao" tabindex="-1" role="dialog" aria-labelledby="TituloJanela" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="TituloJanela">Tela de Edição</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("EditarLivro", "Livro", FormMethod.Post, new { @id = "FormEdicao", @class = "needs-validation", @enctype = "multipart/form-data" }))
+                        {
+                            <!-- Exibir todas as mensagens de erro de validação -->
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Id, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Id, new { @class = "form-control input-sm tb-item-id", @PlaceHolder = "Id:", @id = "Id", @readonly = "readonly" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Titulo, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Titulo, new { @class = "form-control input-sm tb-item-titulo", @PlaceHolder = "Titulo:" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Autor, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Autor, new { @class = "form-control input-sm tb-item-autor", @PlaceHolder = "Autor:", @id = "Autor" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Isbn, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Isbn, new { @class = "form-control input-sm tb-item-isbn", @PlaceHolder = "Isbn:", @id = "Isbn" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.Preco, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.Preco, new { @class = "form-control input-sm tb-item-preco", @type = "number", @min = "0.00",  @step = "0.01", @PlaceHolder = "Preço:", @id = "Preco" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(l => l.DtPublicacao, new { @class = "col-sm-2 col-form-label" })
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(l => l.DtPublicacao, new { @class = "form-control input-sm tb-item-dtpublicacao", @type = "Date", @PlaceHolder = "Data puvlicação", @id = "dtpublicacao" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="ArqImg" name="ArqImg"
+                                               aria-describedby="inputGroupFileAddon01" accept="image/x-png,image/gif,image/jpeg">
+                                        <label class="custom-file-label" for="inputGroupFile01">Pesquisar arquivo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <input type="submit" value="Salvar registro" class="btn btn-primary" />
+                            </div>                            
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Editar Fim -->
+        <hr />
+        @Html.Partial("_Lista")
+    </div>
+    <script src="~/Scripts/ItensSite/JsDoSite.js"></script>
+</body>
+</html>

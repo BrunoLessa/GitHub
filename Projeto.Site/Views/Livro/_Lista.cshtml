@@ -1,0 +1,42 @@
+﻿<div id="Tabela" class="table-responsive col-md-12">
+    <table id="Dados" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Isbn</th>
+                <th>Data publicação</th>
+                <th>Preço</th>
+                <th>Imagem</th>
+                <th>Operações</th>
+            </tr>
+        </thead>
+        @using Projeto.Site.Models
+        @foreach (LivroModel item in ViewBag.Lista)
+        {
+        <tr>
+            <td class="tb-item-id">@item.Id</td>
+            <td class="tb-item-titulo">@item.Titulo</td>
+            <td class="tb-item-autor">@item.Autor</td>
+            <td class="tb-item-isbn">@item.Isbn</td>
+            <td class="tb-item-dtpublicacao">@item.DtPublicacao.ToString("dd/MM/yyyy")</td>
+            <td class="tb-item-preco">@String.Format("{0:C}", item.Preco)</td>
+            <td>
+                @if (item.ImgLivro != null)
+                {
+                    <img src="@string.Format("data:image/png;base64,{0}", item.ImgLivro)" />
+                }
+            </td>            
+            <td class="actions">
+                @Html.ActionLink("Excluir", "ExcluirLivro",
+               new { id = item.Id },
+               new { @onclick = "return confirm('Deseja excluir o item " + item.Id + "?');" ,@class ="btn btn-danger btn-sm delete" } )            
+                <a href="#"  data-toggle="modal" data-target="#TelaEdicao" class="btn btn-info btn-sm">Editar</a>   
+            </td>            
+        </tr>
+        }
+
+    </table>
+</div>
+

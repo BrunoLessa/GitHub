@@ -1,0 +1,23 @@
+﻿.loading {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    display: none;
+}
+input.error, textarea.error {
+    border: 1px solid red;
+}
+.error, label.error {
+    color: red;
+    font-size: 16px;
+}
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #FF0000;
+}
