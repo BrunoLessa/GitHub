@@ -11,20 +11,12 @@ namespace Projeto.Site.Utils
         {
             object result = null;
 
-            // Don't do this here!
-            // It might do bindingContext.ModelState.AddModelError
-            // and there is no RemoveModelError!
-            // 
-            // result = base.BindModel(controllerContext, bindingContext);
-
             string modelName = bindingContext.ModelName;
             string attemptedValue = bindingContext.ValueProvider.GetValue(modelName)?.AttemptedValue;
 
-            // in decimal? binding attemptedValue can be Null
+
             if (attemptedValue != null)
             {
-                // Depending on CultureInfo, the NumberDecimalSeparator can be "," or "."
-                // Both "." and "," should be accepted, but aren't.
                 string wantedSeperator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
                 string alternateSeperator = (wantedSeperator == "," ? "." : ",");
 
