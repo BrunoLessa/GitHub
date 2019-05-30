@@ -21,3 +21,9 @@ input.error, textarea.error {
     border: 1px solid #ff0000;
     background-color: #FF0000;
 }
+.ImgLivro {
+    max-width: 87px;
+    max-height: 125px;
+    width: auto;
+    height: auto;
+}
