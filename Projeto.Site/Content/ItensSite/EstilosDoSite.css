@@ -21,3 +21,25 @@ input.error, textarea.error {
     border: 1px solid #ff0000;
     background-color: #FF0000;
 }
+
+.ImgLivro {
+    max-width: 87px;
+    max-height: 125px;
+    width: auto;
+    height: auto;
+}
+
+.ImgLoad {
+    max-width: 200px;
+    max-height: 163px;
+    width: auto;
+    height: auto;
+}
+th {
+    font-family: 'Sintony', sans-serif;
+}
+
+td {
+    font-family: 'Poppins', sans-serif;
+    font-size:13px;
+}
