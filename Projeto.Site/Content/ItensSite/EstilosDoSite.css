@@ -35,3 +35,11 @@ input.error, textarea.error {
     width: auto;
     height: auto;
 }
+th {
+    font-family: 'Sintony', sans-serif;
+}
+
+td {
+    font-family: 'Poppins', sans-serif;
+    font-size:13px;
+}
